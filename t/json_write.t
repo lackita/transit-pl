@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Data::Transit::Writer;
+use Data::Transit;
 use Point;
 use PointWriteHandler;
 
@@ -34,6 +34,6 @@ sub is_converted_to {
 	my ($data, $json, $handlers) = @_;
 	my $output;
 	open my ($output_fh), '>>', \$output;
-	Data::Transit::Writer->new("json", $output_fh, handlers => $handlers)->write($data);
+	Data::Transit::writer("json", $output_fh, handlers => $handlers)->write($data);
 	is($output, $json);
 }
