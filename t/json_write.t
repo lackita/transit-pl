@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Data::Transit;
+use Data::Transit::Writer;
 
 # scalars
 is_converted_to("foo", '["~#\'","foo"]');
@@ -29,6 +29,6 @@ sub is_converted_to {
 	my ($data, $json) = @_;
 	my $output;
 	open my ($output_fh), '>>', \$output;
-	Data::Transit::writer("json", $output_fh)->write($data);
+	Data::Transit::Writer->new("json", $output_fh)->write($data);
 	is($output, $json);
 }
