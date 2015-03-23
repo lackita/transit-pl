@@ -5,7 +5,8 @@ use warnings;
 use Data::Transit::Writer;
 
 sub writer {
-	return Data::Transit::Writer->new();
+	my ($format, $output) = @_;
+	return Data::Transit::Writer->new($format, $output);
 }
 
 1;

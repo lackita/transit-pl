@@ -8,18 +8,24 @@ use Carp qw(confess);
 use Scalar::Util qw(reftype);
 
 sub new {
-	my ($class) = @_;
+	my ($class, $format, $output) = @_;
 	bless {
 		cache => {},
 		cache_counter => 0,
+		output => $output,
 	}, $class;
 }
 
 sub write {
 	my ($self, $data, @remainder) = @_;
 	confess("write only takes one argument") if scalar(@remainder) > 0;
-	return encode_json(["~#'", $self->convert($data)]) unless reftype($data);
-	return encode_json($self->convert($data));
+
+ 	my $output = $self->{output};
+	if (reftype($data) ne '') {
+		print $output encode_json($self->convert($data));
+	} else {
+		print $output encode_json(["~#'", $self->convert($data)]);
+	}
 }
 
 sub convert {
