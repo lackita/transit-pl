@@ -3,6 +3,8 @@ use warnings;
 
 use Test::More;
 use Data::Transit::Writer;
+use Point;
+use PointWriteHandler;
 
 # scalars
 is_converted_to("foo", '["~#\'","foo"]');
@@ -20,15 +22,18 @@ is_converted_to({foo => 1}, '["^ ","foo",1]');
 is_converted_to([{foo => 1}, "bar"], '[["^ ","foo",1],"bar"]');
 
 # caching
-is_converted_to([{fooo => 1}, {fooo => 1}], '[["^ ","fooo",1],["^ ","^0",1]]');
 is_converted_to([{foo => 1}, {foo => 1}], '[["^ ","foo",1],["^ ","foo",1]]');
+is_converted_to([{fooo => 1}, {fooo => 1}], '[["^ ","fooo",1],["^ ","^0",1]]');
+
+# custom handlers
+is_converted_to(Point->new(2,3), '["~#point",[2,3]]', {Point => PointWriteHandler->new()});
 
 done_testing();
 
 sub is_converted_to {
-	my ($data, $json) = @_;
+	my ($data, $json, $handlers) = @_;
 	my $output;
 	open my ($output_fh), '>>', \$output;
-	Data::Transit::Writer->new("json", $output_fh)->write($data);
+	Data::Transit::Writer->new("json", $output_fh, handlers => $handlers)->write($data);
 	is($output, $json);
 }

@@ -13,7 +13,7 @@ sub new {
 
 sub contains {
 	my ($self, $value) = @_;
-	return $self->{cache}{$value};
+	return defined $self->{cache}{$value};
 }
 
 sub set {
