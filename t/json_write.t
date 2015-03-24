@@ -26,7 +26,8 @@ is_converted_to([{foo => 1}, {foo => 1}], '[["^ ","foo",1],["^ ","foo",1]]');
 is_converted_to([{fooo => 1}, {fooo => 1}], '[["^ ","fooo",1],["^ ","^0",1]]');
 
 # custom handlers
-is_converted_to(Point->new(2,3), '["~#point",[2,3]]', {Point => PointWriteHandler->new()});
+is_converted_to(Point->new(2,3), '["~#point","2,3"]', {Point => PointWriteHandler->new()});
+is_converted_to([Point->new(2,3), Point->new(3,4)], '[["~#point","2,3"],["^0","3,4"]]', {Point => PointWriteHandler->new()});
 
 done_testing();
 

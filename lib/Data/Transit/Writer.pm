@@ -24,7 +24,7 @@ sub write {
 	if (ref($data) ne '') {
 		print $output encode_json($self->_convert($data));
 	} else {
-		print $output encode_json($self->_wrap_scalar($self->_convert($data)));
+		print $output encode_json($self->_wrap_top_level_scalar($self->_convert($data)));
 	}
 }
 
@@ -38,12 +38,17 @@ sub _convert {
 
 sub _cache_convert {
 	my ($self, $data) = @_;
+	return $self->_convert($self->_cache($data));
+}
+
+sub _cache {
+	my ($self, $data) = @_;
 	if (length($data) > 3 && $self->{cache}->contains($data)) {
 		return $self->{cache}->get($data);
 	} else {
 		$self->{cache}->set($data);
 	}
-	return $self->_convert($data);
+	return $data;
 }
 
 sub _convert_array {
@@ -61,7 +66,7 @@ sub _convert_map {
 sub _convert_custom {
 	my ($self, $data) = @_;
 	my $handler = $self->{handlers}->{ref($data)};
-	return $self->_convert($self->_wrap_custom("~#" . $handler->tag($data), $handler->rep($data)));
+	return $self->_convert($self->_wrap_custom($self->_cache("~#" . $handler->tag($data)), $handler->rep($data)));
 }
 
 1;

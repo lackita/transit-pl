@@ -5,15 +5,20 @@ no warnings 'uninitialized';
 
 use parent 'Data::Transit::Writer';
 
-use JSON;
-use Carp qw(confess);
+sub new {
+	my ($self, $output, %args) = @_;
+	for my $handler_class (keys %{$args{handlers}}) {
+		$args{handlers}{$handler_class} = $args{handlers}{$handler_class}->getVerboseHandler();
+	}
+	return $self->SUPER::new($output, %args);
+}
 
-sub _wrap_scalar {
+sub _wrap_top_level_scalar {
 	my ($self, $converted_data) = @_;
 	return {"~#'" => $converted_data};
 }
 
-sub _cache_convert {
+sub _cache {
 	my ($self, $data) = @_;
 	return $self->_convert($data);
 }
