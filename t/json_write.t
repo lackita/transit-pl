@@ -7,9 +7,9 @@ use Point;
 use PointWriteHandler;
 
 # scalars
+is_converted_to(undef, '["~#\'",null]');
 is_converted_to("foo", '["~#\'","foo"]');
 is_converted_to(1, '["~#\'",1]');
-is_converted_to(undef, '["~#\'",null]');
 
 # arrays
 is_converted_to([], '[]');

@@ -9,12 +9,12 @@ sub tag {
 	return 'point';
 }
 
-sub rec {
+sub rep {
 	my ($self, $p) = @_;
 	return [$p->{x},$p->{y}];
 }
 
-sub string_rep {
+sub stringRep {
 	return undef;
 }
 
