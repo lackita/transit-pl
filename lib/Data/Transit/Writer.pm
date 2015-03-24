@@ -3,7 +3,6 @@ use strict;
 use warnings;
 no warnings 'uninitialized';
 
-use Data::Transit::Cache;
 use JSON;
 use Carp qw(confess);
 
@@ -12,7 +11,8 @@ sub new {
 	bless {
 		%args,
 		output => $output,
-		cache => Data::Transit::Cache->new(),
+		cache => {},
+		cache_counter => 0,
 	}, $class;
 }
 
@@ -22,10 +22,15 @@ sub write {
 
 	my $output = $self->{output};
 	if (ref($data) ne '') {
-		print $output encode_json($self->_convert($data));
+		print $output $self->_encode($self->_convert($data));
 	} else {
-		print $output encode_json($self->_wrap_top_level_scalar($self->_convert($data)));
+		print $output $self->_encode($self->_wrap_top_level_scalar($self->_convert($data)));
 	}
+}
+
+sub _wrap_top_level_scalar {
+	my ($self, $converted_data) = @_;
+	return ["~#'", $converted_data];
 }
 
 sub _convert {
@@ -43,10 +48,10 @@ sub _cache_convert {
 
 sub _cache {
 	my ($self, $data) = @_;
-	if (length($data) > 3 && $self->{cache}->contains($data)) {
-		return $self->{cache}->get($data);
+	if (length($data) > 3 && defined $self->{cache}{$data}) {
+		return "^$self->{cache}{$data}";
 	} else {
-		$self->{cache}->set($data);
+		$self->{cache}{$data} = $self->{cache_counter}++;
 	}
 	return $data;
 }
@@ -63,10 +68,20 @@ sub _convert_map {
 	} keys %$map);
 }
 
+sub _wrap_map {
+	my ($self, @converted_map) = @_;
+	return ["^ ", @converted_map];
+}
+
 sub _convert_custom {
 	my ($self, $data) = @_;
 	my $handler = $self->{handlers}->{ref($data)};
 	return $self->_convert($self->_wrap_custom($self->_cache("~#" . $handler->tag($data)), $handler->rep($data)));
+}
+
+sub _wrap_custom {
+	my ($self, $tag, $handled_data) = @_;
+	return [$tag, $handled_data];
 }
 
 1;
