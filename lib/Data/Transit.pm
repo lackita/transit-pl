@@ -5,6 +5,8 @@ no warnings 'uninitialized';
 
 use Carp qw(confess);
 use Data::Transit::Reader::JSON;
+use Data::Transit::Reader::MessagePack;
+use Data::Transit::Reader::JSONVerbose;
 use Data::Transit::Writer::JSON;
 use Data::Transit::Writer::JSONVerbose;
 use Data::Transit::Writer::MessagePack;
@@ -12,6 +14,8 @@ use Data::Transit::Writer::MessagePack;
 sub reader {
 	my ($format, %args) = @_;
 	return Data::Transit::Reader::JSON->new(%args) if $format eq 'json';
+	return Data::Transit::Reader::JSONVerbose->new(%args) if $format eq 'json-verbose';
+	return Data::Transit::Reader::MessagePack->new(%args) if $format eq 'message-pack';
 	confess "unknown reader format: $format";
 }
 

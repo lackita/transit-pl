@@ -1,11 +1,11 @@
 use strict;
 use warnings;
 
-use Test::More;
 use Data::MessagePack;
 use Data::Transit;
 use Point;
 use PointWriteHandler;
+use Test::More;
 
 my $mp = Data::MessagePack->new();
 
