@@ -2,6 +2,8 @@ use strict;
 use warnings;
 no warnings 'uninitialized';
 
+use lib 't/lib';
+
 use Test::More;
 use Data::Transit;
 use Point;

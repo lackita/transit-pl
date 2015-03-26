@@ -1,5 +1,8 @@
 use strict;
 use warnings;
+no warnings 'uninitialized';
+
+use lib 't/lib';
 
 use Data::MessagePack;
 use Data::Transit;

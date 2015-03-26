@@ -2,6 +2,8 @@ use strict;
 use warnings;
 no warnings 'uninitialized';
 
+use lib 't/lib';
+
 use Point;
 use PointReadHandler;
 use Test::More;
