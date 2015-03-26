@@ -34,7 +34,9 @@ Instead of json, you may also provide json-verbose and message-pack;
 
 Type Mappings
 =============
-Perl converts a lot of different types into basic strings, and keys in maps have to be strings.  As a result, the only way to fully avoid key collisions is to have some sort of naming scheme, but this violates the spirit of Transit.  Put another way, we're accepting the possibility of collisions in exchange for something that maps more closely to idiomatic perl.
+Perl converts a lot of different types into basic strings, and keys in maps have to be strings.  As a result, the only way to fully avoid key collisions is to have some sort of naming scheme, but this violates the spirit of Transit. Put another way, we're accepting the possibility of collisions in exchange for something that maps more closely to idiomatic perl.
+
+In an effort to keep the dependencies of this library to a minimum, any types that correspond to something outside of perls core modules has been excluded. If demand becomes high enough, I will write a separate package to extend heavily into CPAN types.
 
 Custom Types
 ------------
