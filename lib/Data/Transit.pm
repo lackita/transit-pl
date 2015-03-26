@@ -11,6 +11,18 @@ use Data::Transit::Writer::JSON;
 use Data::Transit::Writer::JSONVerbose;
 use Data::Transit::Writer::MessagePack;
 
+=head1 NAME
+
+Data::Transit - Perl implementation of the transit format
+
+=head1 VERSION
+
+Version 0.8.01
+
+=cut
+
+our $VERSION = '0.8.01';
+
 sub reader {
 	my ($format, %args) = @_;
 	return Data::Transit::Reader::JSON->new(%args) if $format eq 'json';

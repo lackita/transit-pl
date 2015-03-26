@@ -2,7 +2,7 @@ transit-pl
 ==========
 Transit is a format layered on top of JSON and MessagePack which encodes the type into the data being sent. This library provides support for converting to/from Transit in Perl. If you want information on the format in general, you can get that [here](https://github.com/cognitect/transit-format).
 
-Current version is 0.8.1.  This is a first draft, so there are still a lot of sharp edges.
+Current version is 0.8.01.  This is a first draft, so there are still a lot of sharp edges.
 
 Usage
 =====
