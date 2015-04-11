@@ -3,6 +3,8 @@ use strict;
 use warnings;
 no warnings 'uninitialized';
 
+our $VERSION = '0.8.01';
+
 use JSON;
 use Carp qw(confess);
 

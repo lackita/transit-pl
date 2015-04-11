@@ -3,6 +3,8 @@ use strict;
 use warnings;
 no warnings 'uninitialized';
 
+our $VERSION = '0.8.01';
+
 use parent 'Data::Transit::Reader';
 
 use JSON;
